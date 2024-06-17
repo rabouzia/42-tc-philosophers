@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/04/27 08:15:20 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/05/20 20:51:32 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,20 @@
 pthread_t tid[2]; 
 int counter; 
   
-void* trythis(void* arg) 
-{ 
-    unsigned long i = 0; 
-    counter += 1; 
-    printf("\n Job %d has started\n", counter); 
+// void* trythis(void* arg) 
+// { 
+//     unsigned long i = 0; 
+//     counter += 1; 
+//     printf("\n Job %d has started\n", counter); 
   
-    for (i = 0; i < (0xFFFFFFFF); i++) 
-        ; 
-    printf("\n Job %d has finished\n", counter); 
+//     for (i = 0; i < (0xFFFFFFFF); i++)
+// ; 
+//     printf("\n Job %d has finished\n", counter); 
   
-    return NULL; 
-} 
+//     return NULL; 
+// } 
+
+pthread_mutex_init;
   
 int main(void) 
 { 
