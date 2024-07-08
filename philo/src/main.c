@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/05/20 20:51:32 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:37:06 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // 	return 0;
 // }
 
-// int	is_valid(char *str)
+// in    ßet	is_valid(char *str)
 // {
 // 	int	(i) = 0;
 // 	while(str[i])
@@ -75,18 +75,42 @@ int counter;
 // } 
 
 pthread_mutex_init;
-  
-int main(void) 
+
+int	ft_isdigit(int c)
+{
+	if ((c >= '0') && (c <= '9'))
+		return (1);
+	return (0);
+}
+
+int check_av(char **av)
+{
+	int i;
+	while(av[i])
+	{
+		if (!ft_isdigit(ft_atoi(av[i])))
+			return (0);
+		i++;
+	}
+	return 1;
+}
+
+int main(int ac, char **av) 
 { 
     int i = 0; 
     int error; 
   
-    while (i < 2) { 
-        error = pthread_create(&(tid[i]), NULL, &trythis, NULL); 
-        if (error != 0) 
-            printf("\nThread can't be created : [%s]", strerror(error)); 
-        i++; 
-    } 
+	if (ac == 5 || ac == 6)
+	{
+		if(!check_av(av))
+			return 0;
+		while (i < 2) { 
+			error = pthread_create(&(tid[i]), NULL, &trythis, NULL); 
+			if (error != 0) 
+				printf("\nThread can't be created : [%s]", strerror(error)); 
+			i++; 
+		} 
+	}
   
     pthread_join(tid[0], NULL); 
     pthread_join(tid[1], NULL); 
