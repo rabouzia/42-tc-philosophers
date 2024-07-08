@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/07/08 17:37:06 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:47:37 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,22 @@
 #include <string.h> 
 #include <unistd.h> 
   
-pthread_t tid[2]; 
-int counter; 
+// pthread_t tid[2]; 
+// int counter; 
   
-// void* trythis(void* arg) 
+// void* trythis(void) 
 // { 
 //     unsigned long i = 0; 
 //     counter += 1; 
 //     printf("\n Job %d has started\n", counter); 
   
 //     for (i = 0; i < (0xFFFFFFFF); i++)
-// ; 
-//     printf("\n Job %d has finished\n", counter); 
+//    	 printf("\n Job %d has finished\n", counter); 
   
 //     return NULL; 
 // } 
 
-pthread_mutex_init;
+// int pthread_mutex_init;
 
 int	ft_isdigit(int c)
 {
@@ -83,9 +82,36 @@ int	ft_isdigit(int c)
 	return (0);
 }
 
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	p;
+	int	n;
+
+	i = 0;
+	p = 1;
+	n = 0;
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			p *= -1;
+		i++;
+	}
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		n = n * 10 + (str[i] - 48);
+		i++;
+	}
+	return (n * p);
+}
+
 int check_av(char **av)
 {
 	int i;
+	i = 0;
 	while(av[i])
 	{
 		if (!ft_isdigit(ft_atoi(av[i])))
@@ -97,23 +123,24 @@ int check_av(char **av)
 
 int main(int ac, char **av) 
 { 
-    int i = 0; 
-    int error; 
+    // int i = 0; 
+    // int error; 
   
 	if (ac == 5 || ac == 6)
 	{
 		if(!check_av(av))
 			return 0;
-		while (i < 2) { 
-			error = pthread_create(&(tid[i]), NULL, &trythis, NULL); 
-			if (error != 0) 
-				printf("\nThread can't be created : [%s]", strerror(error)); 
-			i++; 
-		} 
 	}
+	// 	while (i < 2) { 
+	// 		error = pthread_create(&(tid[i]), NULL, &trythis, NULL); 
+	// 		if (error != 0) 
+	// 			printf("\nThread can't be created : [%s]", strerror(error)); 
+	// 		i++; 
+	// 	} 
+	// }
   
-    pthread_join(tid[0], NULL); 
-    pthread_join(tid[1], NULL); 
+    // pthread_join(tid[0], NULL); 
+    // pthread_join(tid[1], NULL); 
   
     return 0; 
 } 
