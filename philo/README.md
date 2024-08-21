@@ -1,0 +1,11 @@
+It's the story of 10 philosophers who couldnt eat at the same time, they managed somehow to wait until they can.
+"Ibn Battuta"
+"Ibn Al-Khattab"
+"Ibn Omar"
+"Imam Malik"
+"Imam Bukhari"
+"Imam Muslim"
+"Imam Shafi3i"
+"Abou Houreyra"
+"Ibn Khaldoun"
+"Ibn Abbas"
