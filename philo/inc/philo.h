@@ -6,14 +6,13 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/08/17 16:38:50 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/08/23 10:38:05 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "name.h"
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -49,6 +48,7 @@ typedef struct s_data
 	useconds_t		life_range;
 	useconds_t		eat_time;
 	useconds_t		sleep_time;
+	useconds_t		start_time;
 	int				nb_meals;
 	// pthread_mutex_t eat;
 	// pthread_mutex_t die;
@@ -61,6 +61,9 @@ int					check_av(char **av);
 void				init_args(int ac, char **av, t_philo **philo, t_data *data);
 void 				*routine(void *lophi);
 t_philo				*init_chain(t_philo **philo, t_data *data);
+long 				time_get(void);
+int 				print_timestamp(t_philo *philo, t_data * data);
+long 				time_get(void);
 
 //############# LIBFT #############/
 

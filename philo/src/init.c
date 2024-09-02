@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/08/17 16:48:21 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/08/23 10:25:53 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_data	*init_philo(int ac, char **av, t_data *data)
 	data->sleep_time = ft_atoi(av[3]); // time_to_sleep
 	if (ac == 6)
 		data->nb_meals = ft_atoi(av[4]);
+	data->start_time = time_get();
 	// if(!pthread_mutex_init(&(data->die), NULL))
 	// 	return (NULL);
 	// if(!pthread_mutex_init(&(data->eat), NULL))
@@ -78,5 +79,6 @@ void	init_args(int ac, char **av, t_philo **philo, t_data *data)
 {
 	data = init_philo(ac, av, data);
 	philo = init_chain(philo, data);
+	// print_timestamp(*philo, data);
 	// print_philo(philo);
 }
