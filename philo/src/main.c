@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/08/23 10:37:12 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/02 14:37:09 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->fork);
 	else 
 		pthread_mutex_unlock(&cur->next->fork);
-	
 	return 1;
 }
 

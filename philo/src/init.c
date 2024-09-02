@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/08/23 10:25:53 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/02 14:45:21 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void lay_the_table(t_philo *philo)
 	while(i <= philo->data->nb_philo)
 	{
 		pthread_mutex_init(&(philo->fork), NULL);
+		pthread_create(&pd_t, NULL, routine, NULL);
+		pthread_join(pd_t, NULL);
 		philo = philo->next;
 		i++;
 	}
-	pthread_create(&pd_t, NULL, routine, NULL);
-	pthread_join(pd_t, NULL);
 }
 
 void	print_philo(t_philo *a)
