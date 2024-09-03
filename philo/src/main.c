@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 16:34:14 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:39:41 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	*routine(void *lophi)
 	{
 		if (!eat(philo))
 			break ;
-		// if (!sleep())
-		// 	break ;
+		if (!sleepy())
+			break ;
 		check_dead(philo);
 	}
 	return(0);
@@ -81,6 +81,19 @@ void	print_timestamp(t_philo *philo, t_data *data)
 	printf("%li %d %s\n", data->start_time, philo->id, EAT);
 	philo = philo->next;
 	printf("%li %d %s\n", data->start_time, philo->id, EAT);
+}
+void tornardo_wipe(t_philo *philo)
+{
+	t_philo *first;
+	first = philo;
+	t_philo *tmp;
+	tmp = philo;
+	while(philo->next != first)
+	{
+		tmp = philo->next;
+		free(philo);
+		philo = tmp;
+	}
 }
 
 int	main(int ac, char **av)
@@ -96,6 +109,6 @@ int	main(int ac, char **av)
 		return (0);
 	init_args(ac, av + 1, &philo, &data);
 	printf("time get :%li\n", data.start_time);
-	free(philo);
+	tornardo_wipe(philo);
 	return (0);
 }

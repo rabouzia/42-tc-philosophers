@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 17:09:25 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:25:00 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_philo	*create_circular(t_philo *philo)
 	t_philo	*first;
 
 	first = philo;
-	while (philo)
+	while (philo->next)
 		philo = philo->next;
 	philo->next = first;
 	return (philo);
@@ -74,6 +74,7 @@ t_philo	*init_chain(t_philo **philo, t_data *data)
 {
 	int		i;
 	t_philo	*tmp;
+	tmp = NULL;
 
 	i = 1;
 	while (i <= data->nb_philo)
