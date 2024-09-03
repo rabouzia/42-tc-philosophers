@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 18:39:41 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:43:58 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	*routine(void *lophi)
 	{
 		if (!eat(philo))
 			break ;
-		if (!sleepy())
-			break ;
+		// if (!sleepy())
+		// 	break ;
 		check_dead(philo);
 	}
 	return(0);

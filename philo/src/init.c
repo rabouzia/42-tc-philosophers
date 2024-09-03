@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 17:24:42 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:43:42 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ void	init_args(int ac, char **av, t_philo **philo, t_data *data)
 {
 	data = init_philo(ac, av, data);
 	*philo = init_chain(philo, data);
+	t_philo *tmp = *philo;
+	while(tmp)
+	{
+		pthread_join(tmp->pid,NULL);
+		tmp = tmp->next;
+	}
 	// print_timestamp(*philo, data);
 	// print_philo(philo);
 }
