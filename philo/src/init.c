@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/02 14:45:21 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:22:32 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,20 @@ t_data	*init_philo(int ac, char **av, t_data *data)
 	if (ac == 6)
 		data->nb_meals = ft_atoi(av[4]);
 	data->start_time = time_get();
-	// if(!pthread_mutex_init(&(data->die), NULL))
-	// 	return (NULL);
-	// if(!pthread_mutex_init(&(data->eat), NULL))
-	// 	return (NULL);
-	// if(!pthread_mutex_init(&(data->think), NULL))
-	// 	return (NULL);
-	return (data);
+		return (data);
 }
 
-void lay_the_table(t_philo *philo)
-{
-	pthread_t pd_t;
-	int i = 0;
-	while(i <= philo->data->nb_philo)
-	{
-		pthread_mutex_init(&(philo->fork), NULL);
-		pthread_create(&pd_t, NULL, routine, NULL);
-		pthread_join(pd_t, NULL);
-		philo = philo->next;
-		i++;
-	}
-}
+// void lay_the_table(t_philo *philo)
+// {
+// 	int i = 0;
+// 	while(i <= philo->data->nb_philo)
+// 	{
+		
+// 		pthread_join((philo->pid), NULL);
+// 		philo = philo->next;
+// 		i++;
+// 	}
+// }
 
 void	print_philo(t_philo *a)
 {
@@ -78,7 +70,7 @@ void	print_philo(t_philo *a)
 void	init_args(int ac, char **av, t_philo **philo, t_data *data)
 {
 	data = init_philo(ac, av, data);
-	philo = init_chain(philo, data);
+	*philo = init_chain(philo, data);
 	// print_timestamp(*philo, data);
 	// print_philo(philo);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/08/23 10:38:05 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/03 16:20:52 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_philo
 	int				id;
 	int 			ate;
 	int 			is_dead;
-	pthread_t		*philo;
+	pthread_t		pid;
 	struct s_philo	*next;
 	pthread_mutex_t	fork;
 	struct s_data	*data;
@@ -45,10 +45,10 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int				nb_philo;
-	useconds_t		life_range;
-	useconds_t		eat_time;
-	useconds_t		sleep_time;
-	useconds_t		start_time;
+	long		life_range;
+	long		eat_time;
+	long		sleep_time;
+	long		start_time;
 	int				nb_meals;
 	// pthread_mutex_t eat;
 	// pthread_mutex_t die;
@@ -62,7 +62,7 @@ void				init_args(int ac, char **av, t_philo **philo, t_data *data);
 void 				*routine(void *lophi);
 t_philo				*init_chain(t_philo **philo, t_data *data);
 long 				time_get(void);
-int 				print_timestamp(t_philo *philo, t_data * data);
+void 				print_timestamp(t_philo *philo, t_data * data);
 long 				time_get(void);
 
 //############# LIBFT #############/
