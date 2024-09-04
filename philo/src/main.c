@@ -6,31 +6,11 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 19:43:58 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/04 19:20:12 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	eat(t_philo *philo)
-{
-	t_philo	*cur;
-
-	cur = philo;
-	pthread_mutex_lock(&cur->fork);
-	if (cur->next == NULL)
-		pthread_mutex_lock(&philo->fork);
-	else
-		pthread_mutex_lock(&cur->next->fork);
-	usleep(philo->data->eat_time);
-	cur->ate = 1;
-	pthread_mutex_unlock(&cur->fork);
-	if (cur->next == NULL)
-		pthread_mutex_unlock(&philo->fork);
-	else
-		pthread_mutex_unlock(&cur->next->fork);
-	return (1);
-}
 
 int	check_dead(t_philo *philo)
 {
@@ -58,6 +38,25 @@ int	waiter(t_philo *philo, long time)
 	return (1);
 }
 
+int	eat(t_philo *philo)
+{
+	t_philo	*cur;
+
+	cur = philo;
+	pthread_mutex_lock(&cur->fork);
+	printf("has token a fork\n");
+	pthread_mutex_lock(&cur->next->fork);
+	printf("has token a fork\n");
+	printf("is eating\n");
+	waiter(philo ,philo->data->eat_time);
+	cur->ate = 1;
+	pthread_mutex_unlock(&cur->fork);
+	pthread_mutex_unlock(&cur->next->fork);
+	return (1);
+}
+
+
+
 void	*routine(void *lophi)
 {
 	t_philo	*philo;
@@ -69,7 +68,7 @@ void	*routine(void *lophi)
 			break ;
 		// if (!sleepy())
 		// 	break ;
-		check_dead(philo);
+		// check_dead(philo);
 	}
 	return(0);
 }
@@ -82,17 +81,48 @@ void	print_timestamp(t_philo *philo, t_data *data)
 	philo = philo->next;
 	printf("%li %d %s\n", data->start_time, philo->id, EAT);
 }
+
+// void	mr_propre(t_list **lst)
+// {
+// 	t_list	*tmp;
+// 	t_list	*head;
+
+// 	head = *lst;
+// 	if (!lst || !*lst)
+// 		return ;
+// 	while (*lst)
+// 	{
+// 		tmp = (*lst)->next;
+// 		ft_lstdelone(*lst);
+// 		*lst = tmp;
+// 		if (*lst == head)
+// 			break ;
+// 	}
+// }
+
+void	ft_lstdelone(t_philo *lst)
+{
+	if (!lst)
+		return ;
+	if (lst)
+		free(lst);
+}
+
 void tornardo_wipe(t_philo *philo)
 {
 	t_philo *first;
-	first = philo;
 	t_philo *tmp;
-	tmp = philo;
-	while(philo->next != first)
+	
+	first = philo;
+	while(philo)
 	{
 		tmp = philo->next;
-		free(philo);
+		pthread_mutex_destroy(&(philo->fork));
+		ft_lstdelone(philo);
+		printf("sdfsdfsd\n");
 		philo = tmp;
+		if(philo == first)
+			break;
 	}
 }
 
@@ -109,6 +139,7 @@ int	main(int ac, char **av)
 		return (0);
 	init_args(ac, av + 1, &philo, &data);
 	printf("time get :%li\n", data.start_time);
+	printf("\n brooo \n");
 	tornardo_wipe(philo);
 	return (0);
 }
