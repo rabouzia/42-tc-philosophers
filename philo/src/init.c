@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/04 18:45:02 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:45:32 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,27 @@ void	print_philo(t_philo *a)
 	}
 }
 
-void	init_args(int ac, char **av, t_philo **philo, t_data *data)
+void	init_args(int ac, char **av, t_philo *philo, t_data *data)
 {
 	data = init_philo(ac, av, data);
-	*philo = init_chain(philo, data);
-	t_philo *tmp = *philo;
-	while(tmp->next != *philo)
+	philo = malloc(sizeof(t_philo));
+	philo = init_chain(philo, data);
+	t_philo *tmp = philo;
+	while (tmp)
+	{
+		pthread_create(&(tmp->pid), NULL, routine, tmp);
+		tmp = tmp->next;
+		if (tmp == philo)
+			break;
+	}
+	tmp = philo;
+	while (tmp)
 	{
 		pthread_join(tmp->pid,NULL);
 		tmp = tmp->next;
-	}
+		if (tmp == philo)
+			break;
+	}	
 	//print_timestamp(*philo, data);
 	//print_philo(philo);
 }

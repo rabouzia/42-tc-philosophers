@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 17:25:00 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:48:13 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_philo	*ft_lstnew(int id, t_philo *philo)
+t_philo	*ft_lstnew(int id, t_data *data)
 {
 	t_philo	*res;
 
 	res = malloc(sizeof(t_philo));
 	if (!res)
 		return (NULL);
-	if (pthread_mutex_init(&(res->fork), NULL) != 0)
-		return (0);
-	if (pthread_create(&(res->pid), NULL, routine, philo) != 0)
-		return (NULL);
+	res->data = data;
+	pthread_mutex_init(&(res->fork), NULL);
 	res->ate = 0;
 	res->is_dead = 0;
 	res->id = id;
@@ -48,18 +46,15 @@ t_philo	*ft_lstfirst(t_philo *lst)
 	return (lst);
 }
 
-int	ft_lstadd_back(t_philo **lst, t_philo *new)
+int	ft_lstadd_back(t_philo *lst, t_philo *new)
 {
 	if (!lst ||!new)
 		return (0);
-	if (*lst)
-		ft_lstlast(*lst)->next = new;
-	else
-		*lst = new;
+	ft_lstlast(lst)->next = new;
 	return (1);
 }
 
-t_philo	*create_circular(t_philo *philo)
+void	create_circular(t_philo *philo)
 {
 	t_philo	*first;
 
@@ -67,31 +62,35 @@ t_philo	*create_circular(t_philo *philo)
 	while (philo->next)
 		philo = philo->next;
 	philo->next = first;
-	return (philo);
 }
 
-t_philo	*init_chain(t_philo **philo, t_data *data)
+int init_first(t_philo *philo, t_data *data)
+{
+	pthread_mutex_init(&(philo->fork), NULL);
+	philo->data = data;
+	philo->ate = 0;
+	philo->is_dead = 0;
+	philo->id = 1;
+	philo->next = NULL;
+	return (0);
+}
+
+t_philo	*init_chain(t_philo *philo, t_data *data)
 {
 	int		i;
-	t_philo	*tmp;
-	tmp = NULL;
 
 	i = 1;
 	while (i <= data->nb_philo)
 	{
-		if (*philo == NULL)
-		{
-			*philo = ft_lstnew(i, *philo);
-			if (*philo == NULL)
-				return (NULL);
-		}
+		if (i == 1)
+			init_first(philo, data);
 		else
 		{
-			if (!ft_lstadd_back(&tmp, ft_lstnew(i, *philo)))
+			if (!ft_lstadd_back(philo, ft_lstnew(i, data)))
 				return (NULL);
 		}
 		i++;
 	}
-	*philo = create_circular(*philo);
-	return (*philo);
+	create_circular(philo);
+	return (philo);
 }

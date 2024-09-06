@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/03 16:20:52 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:35:54 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ typedef struct s_data
 //########### INIT & CHECK ########/
 
 int					check_av(char **av);
-void				init_args(int ac, char **av, t_philo **philo, t_data *data);
+void				init_args(int ac, char **av, t_philo *philo, t_data *data);
 void 				*routine(void *lophi);
-t_philo				*init_chain(t_philo **philo, t_data *data);
+t_philo				*init_chain(t_philo *philo, t_data *data);
 long 				time_get(void);
 void 				print_timestamp(t_philo *philo, t_data * data);
 long 				time_get(void);
