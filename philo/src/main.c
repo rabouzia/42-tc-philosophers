@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/04 21:39:06 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/06 14:34:38 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	eat(t_philo *philo)
 
 	cur = philo;
 	pthread_mutex_lock(&cur->fork);
-	printf("has token a fork\n");
+	printf("%li ms - %d has token a fork\n", philo->data->start_time, philo->id);
 	pthread_mutex_lock(&cur->next->fork);
 	printf("has token a fork\n");
 	printf("is eating\n");
@@ -64,11 +64,13 @@ void	*routine(void *lophi)
 	philo = (t_philo *)lophi;
 	while (1)
 	{
-		if (eat(philo))
-			break ;
-		// if (!sleepy())
-		// 	break ;
-		// check_dead(philo);
+		printf("asd\n");
+		if (!eat(philo))
+				continue;
+		if (sleepy(philo))
+			continue;
+		else
+			thinky(philo);
 	}
 	return(0);
 }
