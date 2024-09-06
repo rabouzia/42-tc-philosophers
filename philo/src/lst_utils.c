@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/06 17:48:13 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/06 20:05:04 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,12 @@ t_philo	*init_chain(t_philo *philo, t_data *data)
 {
 	int		i;
 
-	i = 1;
+	init_first(philo, data);
+	i = 2;
 	while (i <= data->nb_philo)
 	{
-		if (i == 1)
-			init_first(philo, data);
-		else
-		{
-			if (!ft_lstadd_back(philo, ft_lstnew(i, data)))
-				return (NULL);
-		}
+		if (!ft_lstadd_back(philo, ft_lstnew(i, data)))
+			return (/*free les philos d'avant, */NULL);
 		i++;
 	}
 	create_circular(philo);
