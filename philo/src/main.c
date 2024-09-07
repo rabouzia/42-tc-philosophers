@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/07 12:26:52 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/07 22:03:00 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,18 @@ int	waiter(t_philo *philo, long time)
 {
 	while (time_get() - philo->data->start_time < time)
 	{
-		usleep(10);
+		usleep(100);
 	}
 	return (1);
 }
 
-int print_action(t_philo *philo, char *str)
+int	print_action(t_philo *philo, char *str)
 {
-	long time;
+	long	time;
+
 	time = time_get();
-	printf("%li %d %s\n", time, philo->id, str);
-	return 1;
+	printf("%li %d %s\n", time - philo->data->start_time, philo->id, str);
+	return (1);
 }
 
 int	eat(t_philo *philo)
@@ -46,7 +47,6 @@ int	eat(t_philo *philo)
 
 	cur = philo;
 	// printf("eat\n");
-	printf("philo %d \n", philo->id);
 	if (philo->id % 2 == 0)
 	{
 		// printf("time is %li", time_get() - philo->data->start_time);
@@ -55,8 +55,8 @@ int	eat(t_philo *philo)
 		pthread_mutex_lock(&cur->next->fork);
 		print_action(philo, FORK);
 		print_action(philo, EAT);
-
-		cur->ate = 1;
+		usleep(philo->data->eat_time * 1000);
+		// cur->ate = 1;
 		pthread_mutex_unlock(&cur->fork);
 		pthread_mutex_unlock(&cur->next->fork);
 	}
@@ -67,25 +67,28 @@ int	eat(t_philo *philo)
 		pthread_mutex_lock(&cur->fork);
 		print_action(philo, FORK);
 		print_action(philo, EAT);
+		usleep(philo->data->eat_time * 1000);
 		// waiter(philo ,philo->data->eat_time);
-		cur->ate = 1;
-		pthread_mutex_unlock(&cur->fork);
+		// cur->ate = 1;
 		pthread_mutex_unlock(&cur->next->fork);
+		pthread_mutex_unlock(&cur->fork);
 	}
-	waiter(philo, philo->data->eat_time);
+	// waiter(philo, philo->data->eat_time);
 	return (1);
 }
 
-int sleepy(t_philo *philo)
+int	sleepy(t_philo *philo)
 {
 	print_action(philo, SLEEP);
-	return 1;
+	usleep(philo->data->sleep_time * 1000);
+	return (1);
 }
 
-int thinky(t_philo *philo)
+int	thinky(t_philo *philo)
 {
 	print_action(philo, THINK);
-	return 1;
+	usleep(10);
+	return (1);
 }
 
 void	*routine(void *lophi)
@@ -93,28 +96,20 @@ void	*routine(void *lophi)
 	t_philo	*philo;
 
 	philo = (t_philo *)lophi;
+	
+	if (philo->id % 2 == 0)
+		usleep(50);
 	// printf("philo is %d\n", philo->id);
 	while (1)
 	{
-		// printf("routine\n\n\n");
-		if (philo->ate == 0)
-		{
-			if (!eat(philo))
-				break ;
-		}
-		if (philo->ate == 1)
-		{
-			if (!sleepy(philo))
-				break;
-		}
-		else
-			thinky(philo);
-		
-		// if (sleepy(philo))
-		// 	continue ;
-		// else
-		// 	thinky(philo);
-		break ;
+		// if (check_dead(philo))
+		// 	break;
+		if (!eat(philo))
+			break ;
+		if (!sleepy(philo))
+			break ;
+		if (!thinky(philo))
+			break ;
 	}
 	return (0);
 }
