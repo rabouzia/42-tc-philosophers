@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/06 20:14:19 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/07 12:26:52 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,19 @@ int	check_dead(t_philo *philo)
 
 int	waiter(t_philo *philo, long time)
 {
-	int	i;
-
-	i = 0;
-	while (i <= (time / 10))
+	while (time_get() - philo->data->start_time < time)
 	{
 		usleep(10);
-		printf("time is %li", time_get() - philo->data->start_time);
-		if (check_dead(philo) == 1)
-			return (0);
-		i++;
 	}
 	return (1);
+}
+
+int print_action(t_philo *philo, char *str)
+{
+	long time;
+	time = time_get();
+	printf("%li %d %s\n", time, philo->id, str);
+	return 1;
 }
 
 int	eat(t_philo *philo)
@@ -45,17 +46,16 @@ int	eat(t_philo *philo)
 
 	cur = philo;
 	// printf("eat\n");
-	printf("philo %d ", philo->id);
+	printf("philo %d \n", philo->id);
 	if (philo->id % 2 == 0)
 	{
 		// printf("time is %li", time_get() - philo->data->start_time);
 		pthread_mutex_lock(&cur->fork);
-		printf("has token a fork\n");
+		print_action(philo, FORK);
 		pthread_mutex_lock(&cur->next->fork);
-		printf("has token a fork\n");
-		printf("is eating\n");
-		// printf("time is %li", time_get() - philo->data->start_time);
-		// waiter(philo ,philo->data->eat_time);
+		print_action(philo, FORK);
+		print_action(philo, EAT);
+
 		cur->ate = 1;
 		pthread_mutex_unlock(&cur->fork);
 		pthread_mutex_unlock(&cur->next->fork);
@@ -63,18 +63,29 @@ int	eat(t_philo *philo)
 	else
 	{
 		pthread_mutex_lock(&cur->next->fork);
-		printf("has token a fork\n");
-		// printf("time is %li", time_get() - philo->data->start_time);
-		// printf("%li ms - %d has token a fork\n",philo->data->start_time,philo->id);
+		print_action(philo, FORK);
 		pthread_mutex_lock(&cur->fork);
-		printf("has token a fork\n");
-		printf("is eating\n");
+		print_action(philo, FORK);
+		print_action(philo, EAT);
 		// waiter(philo ,philo->data->eat_time);
 		cur->ate = 1;
 		pthread_mutex_unlock(&cur->fork);
 		pthread_mutex_unlock(&cur->next->fork);
 	}
+	waiter(philo, philo->data->eat_time);
 	return (1);
+}
+
+int sleepy(t_philo *philo)
+{
+	print_action(philo, SLEEP);
+	return 1;
+}
+
+int thinky(t_philo *philo)
+{
+	print_action(philo, THINK);
+	return 1;
 }
 
 void	*routine(void *lophi)
@@ -82,15 +93,23 @@ void	*routine(void *lophi)
 	t_philo	*philo;
 
 	philo = (t_philo *)lophi;
-	printf("philo is %d\n", philo->id);
+	// printf("philo is %d\n", philo->id);
 	while (1)
 	{
-		printf("routine\n\n\n");
+		// printf("routine\n\n\n");
 		if (philo->ate == 0)
 		{
 			if (!eat(philo))
 				break ;
 		}
+		if (philo->ate == 1)
+		{
+			if (!sleepy(philo))
+				break;
+		}
+		else
+			thinky(philo);
+		
 		// if (sleepy(philo))
 		// 	continue ;
 		// else
@@ -167,6 +186,6 @@ int	main(int ac, char **av)
 	if (!check_av(av + 1))
 		return (0);
 	init_args(ac, av + 1, &philo, &data);
-	tornado_wipe(&philo);
+	// tornado_wipe(&philo);
 	return (0);
 }
