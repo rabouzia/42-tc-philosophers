@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/17 17:41:11 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/17 23:13:35 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	print_philo(t_philo *a)
 void	init_args(int ac, char **av, t_philo *philo, t_data *data)
 {
 	data = init_philo(ac, av, data);
-	philo = malloc(sizeof(t_philo));
 	philo = init_chain(philo, data);
 	t_philo *tmp = philo;
 	while (tmp)
