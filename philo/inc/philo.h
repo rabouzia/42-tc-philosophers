@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/06 17:35:54 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/17 17:31:27 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_philo
 {
 	int				id;
 	int 			ate;
-	int 			is_dead;
+	long			last_eat;
 	pthread_t		pid;
 	struct s_philo	*next;
 	pthread_mutex_t	fork;
@@ -50,8 +50,9 @@ typedef struct s_data
 	long		sleep_time;
 	long		start_time;
 	int				nb_meals;
+	int 			is_dead;
+	pthread_mutex_t smn_died;
 	// pthread_mutex_t eat;
-	// pthread_mutex_t die;
 	// pthread_mutex_t think;
 }					t_data;
 

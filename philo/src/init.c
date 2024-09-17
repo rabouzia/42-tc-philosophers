@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/06 20:13:20 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:41:11 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_data	*init_philo(int ac, char **av, t_data *data)
 	data->life_range = ft_atoi(av[1]); // time_to_die
 	data->eat_time   = ft_atoi(av[2]);   // time_to_eat
 	data->sleep_time = ft_atoi(av[3]); // time_to_sleep
+	data->is_dead = 0;
 	if (ac == 6)
 		data->nb_meals = ft_atoi(av[4]);
 	data->start_time = time_get();
@@ -76,6 +77,4 @@ void	init_args(int ac, char **av, t_philo *philo, t_data *data)
 		if (tmp == philo)
 			break;
 	}	
-	//print_timestamp(*philo, data);
-	//print_philo(philo);
 }

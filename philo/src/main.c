@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/07 22:03:00 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:57:29 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 int	check_dead(t_philo *philo)
 {
-	while (philo)
+	pthread_mutex_lock(&philo->data->smn_died);
+	if (philo->data->is_dead == 1)
 	{
-		if (philo->is_dead == 1)
-			return (1);
-		philo = philo->next;
+		pthread_mutex_unlock(&philo->data->smn_died);	
+		return (1);
 	}
+	pthread_mutex_unlock(&philo->data->smn_died);	
 	return (0);
 }
 
 int	waiter(t_philo *philo, long time)
 {
-	while (time_get() - philo->data->start_time < time)
+	while (i  < time)
 	{
-		usleep(100);
+		usleep(10);
+		i++;
 	}
 	return (1);
 }
@@ -37,7 +39,19 @@ int	print_action(t_philo *philo, char *str)
 	long	time;
 
 	time = time_get();
-	printf("%li %d %s\n", time - philo->data->start_time, philo->id, str);
+	// check le temps de la derniere fois ou il manger
+	// somedied
+	pthread_mutex_lock(&philo->data->smn_died);
+	if (time - philo->last_eat > philo->data->life_range && philo->data->is_dead == 0)
+	{
+		philo->data->is_dead = 1;
+		pthread_mutex_unlock(&philo->data->smn_died);
+		printf("%li %d %s\n", time - philo->data->start_time, philo->id, DIED);
+		return 0;
+	}
+	if (!philo->data->is_dead)
+		printf("%li %d %s\n", time - philo->data->start_time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->smn_died);
 	return (1);
 }
 
@@ -55,6 +69,7 @@ int	eat(t_philo *philo)
 		pthread_mutex_lock(&cur->next->fork);
 		print_action(philo, FORK);
 		print_action(philo, EAT);
+		philo->last_eat = time_get();
 		usleep(philo->data->eat_time * 1000);
 		// cur->ate = 1;
 		pthread_mutex_unlock(&cur->fork);
@@ -67,6 +82,7 @@ int	eat(t_philo *philo)
 		pthread_mutex_lock(&cur->fork);
 		print_action(philo, FORK);
 		print_action(philo, EAT);
+		philo->last_eat = time_get();
 		usleep(philo->data->eat_time * 1000);
 		// waiter(philo ,philo->data->eat_time);
 		// cur->ate = 1;
@@ -87,7 +103,6 @@ int	sleepy(t_philo *philo)
 int	thinky(t_philo *philo)
 {
 	print_action(philo, THINK);
-	usleep(10);
 	return (1);
 }
 
@@ -102,8 +117,8 @@ void	*routine(void *lophi)
 	// printf("philo is %d\n", philo->id);
 	while (1)
 	{
-		// if (check_dead(philo))
-		// 	break;
+		if (check_dead(philo))
+			break;
 		if (!eat(philo))
 			break ;
 		if (!sleepy(philo))
@@ -160,7 +175,6 @@ void	tornado_wipe(t_philo *philo)
 	{
 		tmp = philo->next;
 		printf("philo %p %d is washing his plate\n\n\n", philo, philo->id);
-		// pthread_mutex_destroy(&(philo->fork));
 		ft_lstdelone(philo);
 		philo = tmp;
 		printf("TEST\n");
@@ -181,6 +195,5 @@ int	main(int ac, char **av)
 	if (!check_av(av + 1))
 		return (0);
 	init_args(ac, av + 1, &philo, &data);
-	// tornado_wipe(&philo);
 	return (0);
 }

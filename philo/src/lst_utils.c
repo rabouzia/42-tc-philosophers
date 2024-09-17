@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/06 20:05:04 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:47:10 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_philo	*ft_lstnew(int id, t_data *data)
 	res->data = data;
 	pthread_mutex_init(&(res->fork), NULL);
 	res->ate = 0;
-	res->is_dead = 0;
+	res->last_eat = time_get();
 	res->id = id;
 	res->next = NULL;
 	return (res);
@@ -69,8 +69,8 @@ int init_first(t_philo *philo, t_data *data)
 	pthread_mutex_init(&(philo->fork), NULL);
 	philo->data = data;
 	philo->ate = 0;
-	philo->is_dead = 0;
 	philo->id = 1;
+	philo->last_eat = time_get();	
 	philo->next = NULL;
 	return (0);
 }
