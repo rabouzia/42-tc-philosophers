@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:39:06 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:49:20 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ typedef struct s_data
 	long			sleep_time;
 	long			start_time;
 	int				is_dead;
+	int				end;
+	pthread_mutex_t	all_finished;
 	pthread_mutex_t	smn_died;
 	int				ac;
 	char			**av;
 }					t_data;
 
-void				*routine(void *lophi);
+void *routine(void *lophi);
 
 //############  INIT_VERIF   ##############//
 
@@ -77,6 +79,10 @@ int					ft_lstadd_back(t_philo *lst, t_philo *new);
 int					check_dead(t_philo *philo);
 
 long				time_get(void);
+
+int 				check_finished(t_philo *philo);
+
+void				waiter(long time);
 
 int					print_action(t_philo *philo, char *str);
 

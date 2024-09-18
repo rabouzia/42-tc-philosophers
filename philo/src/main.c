@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:38:11 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:50:51 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ void	*routine(void *lophi)
 
 	philo = (t_philo *)lophi;
 	if (philo->id % 2 == 0)
-		usleep(1000);
+		waiter(1);
 	while (1)
 	{
-		if (check_dead(philo))
+		if (philo->data->ac == 6)
+		{
+			if (!check_finished(philo))
+				break ;
+		}
+		if (!check_dead(philo))
 			break ;
 		if (!eat(philo))
 			break ;
@@ -44,6 +49,11 @@ int	main(int ac, char **av)
 		return (write(2, "Error\nWrong number of arguments\n", 32), 0);
 	if (!check_av(av + 1))
 		return (0);
+	// while (1)
+	// {
+	// 	if (monitoring())
+	// 		break;
+	// }
 	init_args(ac, av + 1, &philo, &data);
 	tornado_wipe(&philo);
 	return (0);

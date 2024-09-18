@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:38:19 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:49:40 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,30 @@ int	check_dead(t_philo *philo)
 	if (philo->data->is_dead == 1)
 	{
 		pthread_mutex_unlock(&philo->data->smn_died);
-		return (1);
+		return (0);
 	}
 	pthread_mutex_unlock(&philo->data->smn_died);
-	return (0);
+	return (1);
 }
 
-int	waiter(long time)
+int check_finished(t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	while (i++ < time / 10)
-		usleep(10);
+	pthread_mutex_lock(&philo->data->all_finished);
+	if (!philo->nb_meals)
+	{
+		pthread_mutex_unlock(&philo->data->all_finished);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->data->all_finished);
 	return (1);
+}
+
+void	waiter(long time)
+{
+	long start;
+	start = time_get();
+	while ((time_get() - start) < time)
+		usleep(10);
 }
 
 int	print_action(t_philo *philo, char *str)
