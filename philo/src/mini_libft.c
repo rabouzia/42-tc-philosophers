@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:26:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/08/16 18:39:30 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:14:14 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,30 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (n * p);
+}
+
+t_philo	*ft_lstlast(t_philo *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+t_philo	*ft_lstfirst(t_philo *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+int	ft_lstadd_back(t_philo *lst, t_philo *new)
+{
+	if (!lst ||!new)
+		return (0);
+	ft_lstlast(lst)->next = new;
+	return (1);
 }

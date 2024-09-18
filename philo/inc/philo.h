@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/17 17:31:27 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:26:17 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philo
 	int 			ate;
 	long			last_eat;
 	pthread_t		pid;
+	int				nb_meals;
 	struct s_philo	*next;
 	pthread_mutex_t	fork;
 	struct s_data	*data;
@@ -49,30 +50,57 @@ typedef struct s_data
 	long		eat_time;
 	long		sleep_time;
 	long		start_time;
-	int				nb_meals;
 	int 			is_dead;
 	pthread_mutex_t smn_died;
+	int 				ac;
+	char 				**av;
 	// pthread_mutex_t eat;
 	// pthread_mutex_t think;
 }					t_data;
 
-//########### INIT & CHECK ########/
 
-int					check_av(char **av);
-void				init_args(int ac, char **av, t_philo *philo, t_data *data);
-void 				*routine(void *lophi);
-t_philo				*init_chain(t_philo *philo, t_data *data);
-long 				time_get(void);
-void 				print_timestamp(t_philo *philo, t_data * data);
-long 				time_get(void);
+void	*routine(void *lophi);
 
-//############# LIBFT #############/
+
+//############  INIT_VERIF   ##############//
+
+int	check_av(char **av);
+
+void	init_args(int ac, char **av, t_philo *philo, t_data *data);
+
+//############  MINI_LIBFT  #############//
 
 int					ft_isdigit(int c);
+
 int					ft_atoi(char *str);
 
-//############# Test ##############/
+int	ft_lstadd_back(t_philo *lst, t_philo *new);
 
-void				print_philo(t_philo *a);
+
+//############  PHILO_UTILS ##############//
+
+int	check_dead(t_philo *philo);
+
+long 	time_get(void);
+
+int	print_action(t_philo *philo, char *str);
+
+//############  ROUTINE ##############//
+
+int	eat(t_philo *philo);
+
+int	sleepy(t_philo *philo);
+
+int	thinky(t_philo *philo);
+
+
+//############  CLEAN_TOOLS ##############/
+
+void	tornado_wipe(t_philo *philo);
+
+//############  CREATE_LST ##############/
+
+t_philo	*init_chain(t_philo *philo, t_data *data);
+
 
 #endif

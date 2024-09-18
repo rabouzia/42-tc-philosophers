@@ -1,10 +1,12 @@
 NAME     =		philo
 
-SRC	     =		src/main.c		\
-			    src/libft.c		\
-				src/init.c  	\
-				src/lst_utils.c \
-				src/time_handling.c 
+SRC	     =		src/main.c			\
+			    src/mini_libft.c	\
+				src/init_verif.c  	\
+				src/create_lst.c 	\
+				src/clean_tools.c 	\
+				src/philo_utils.c 	\
+				src/routine.c 		\
 
 
 CC       =	    cc

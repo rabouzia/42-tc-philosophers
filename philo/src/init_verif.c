@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/17 23:13:35 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:04:46 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,10 @@ t_data	*init_philo(int ac, char **av, t_data *data)
 	data->eat_time   = ft_atoi(av[2]);   // time_to_eat
 	data->sleep_time = ft_atoi(av[3]); // time_to_sleep
 	data->is_dead = 0;
-	if (ac == 6)
-		data->nb_meals = ft_atoi(av[4]);
 	data->start_time = time_get();
 		return (data);
-}
-
-void	print_philo(t_philo *a)
-{
-	printf("show id :\n");
-	while (a)
-	{
-		// id_print(a);
-		printf("id = %d and ptr = %p\n", a->id, a);
-		a = a->next;
-	}
+	data->ac = ac;
+	data->av = av;
 }
 
 void	init_args(int ac, char **av, t_philo *philo, t_data *data)
