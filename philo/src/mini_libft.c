@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
+/*   mini_libft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:26:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:14:14 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:38:14 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_philo	*ft_lstfirst(t_philo *lst)
 
 int	ft_lstadd_back(t_philo *lst, t_philo *new)
 {
-	if (!lst ||!new)
+	if (!lst || !new)
 		return (0);
 	ft_lstlast(lst)->next = new;
 	return (1);

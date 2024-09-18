@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:08:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:22:30 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:38:24 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void if_eat(t_philo *philo, t_philo *cur)
+void	if_eat(t_philo *philo, t_philo *cur)
 {
 	pthread_mutex_lock(&cur->fork);
 	print_action(philo, FORK);
@@ -25,7 +25,7 @@ void if_eat(t_philo *philo, t_philo *cur)
 	pthread_mutex_unlock(&cur->next->fork);
 }
 
-void else_eat(t_philo *philo, t_philo *cur)
+void	else_eat(t_philo *philo, t_philo *cur)
 {
 	pthread_mutex_lock(&cur->next->fork);
 	print_action(philo, FORK);
@@ -47,7 +47,6 @@ int	eat(t_philo *philo)
 		if_eat(philo, cur);
 	else
 		else_eat(philo, cur);
-	
 	return (1);
 }
 

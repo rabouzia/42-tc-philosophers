@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:14:10 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:39:41 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	create_circular(t_philo *philo)
 	philo->next = first;
 }
 
-int init_first(t_philo *philo, t_data *data)
+int	init_first(t_philo *philo, t_data *data)
 {
 	pthread_mutex_init(&(philo->fork), NULL);
 	philo->data = data;
 	philo->ate = 0;
 	philo->id = 1;
-	philo->last_eat = time_get();	
+	philo->last_eat = time_get();
 	philo->next = NULL;
 	if (data->ac == 6)
 		philo->nb_meals = ft_atoi(data->av[4]);
@@ -55,14 +55,14 @@ int init_first(t_philo *philo, t_data *data)
 
 t_philo	*init_chain(t_philo *philo, t_data *data)
 {
-	int		i;
+	int	i;
 
 	init_first(philo, data);
 	i = 2;
 	while (i <= data->nb_philo)
 	{
 		if (!ft_lstadd_back(philo, ft_lstnew(i, data)))
-			return (/*free les philos d'avant, */NULL);
+			return (NULL);
 		i++;
 	}
 	create_circular(philo);

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:11:35 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:38:19 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long 	time_get(void)
+long	time_get(void)
 {
-	struct timeval tv;
-	
-	if (gettimeofday(&tv, NULL)== -1)
-		return 0;
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		return (0);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
@@ -35,8 +35,10 @@ int	check_dead(t_philo *philo)
 
 int	waiter(long time)
 {
-	int i = 0;
-	while (i++  < time / 10)
+	int	i;
+
+	i = 0;
+	while (i++ < time / 10)
 		usleep(10);
 	return (1);
 }

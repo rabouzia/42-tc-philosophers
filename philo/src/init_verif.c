@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_verif.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:04:46 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:40:03 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,37 @@ int	check_av(char **av)
 
 t_data	*init_philo(int ac, char **av, t_data *data)
 {
-	data->nb_philo   = ft_atoi(av[0]);   // number_of_philosophers:
-	data->life_range = ft_atoi(av[1]); // time_to_die
-	data->eat_time   = ft_atoi(av[2]);   // time_to_eat
-	data->sleep_time = ft_atoi(av[3]); // time_to_sleep
+	data->nb_philo = ft_atoi(av[0]);
+	data->life_range = ft_atoi(av[1]);
+	data->eat_time = ft_atoi(av[2]);
+	data->sleep_time = ft_atoi(av[3]);
 	data->is_dead = 0;
 	data->start_time = time_get();
-		return (data);
+	return (data);
 	data->ac = ac;
 	data->av = av;
 }
 
 void	init_args(int ac, char **av, t_philo *philo, t_data *data)
 {
+	t_philo	*tmp;
+
 	data = init_philo(ac, av, data);
 	philo = init_chain(philo, data);
-	t_philo *tmp = philo;
+	tmp = philo;
 	while (tmp)
 	{
 		pthread_create(&(tmp->pid), NULL, routine, tmp);
 		tmp = tmp->next;
 		if (tmp == philo)
-			break;
+			break ;
 	}
 	tmp = philo;
 	while (tmp)
 	{
-		pthread_join(tmp->pid,NULL);
+		pthread_join(tmp->pid, NULL);
 		tmp = tmp->next;
 		if (tmp == philo)
-			break;
-	}	
+			break ;
+	}
 }
