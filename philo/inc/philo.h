@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:26:17 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:34:20 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ typedef struct s_data
 	pthread_mutex_t smn_died;
 	int 				ac;
 	char 				**av;
-	// pthread_mutex_t eat;
-	// pthread_mutex_t think;
 }					t_data;
 
 
