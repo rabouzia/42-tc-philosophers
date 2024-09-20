@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:09:43 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 17:33:19 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:41:41 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_lstdelone(t_philo *lst)
 		free(lst);
 }
 
-void	tornado_wipe(t_philo *philo)
+int	tornado_wipe(t_philo *philo)
 {
 	t_philo	*first;
 	t_philo	*tmp;
@@ -31,9 +31,11 @@ void	tornado_wipe(t_philo *philo)
 	{
 		tmp = philo->next;
 		pthread_mutex_destroy(&philo->fork);
-		ft_lstdelone(philo);
+		printf("philo number %d \n", philo->id);
+		free(philo);
 		philo = tmp;
 		if (philo == first)
 			break ;
 	}
+	return (1);
 }

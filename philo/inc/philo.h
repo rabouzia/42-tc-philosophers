@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 17:49:20 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/20 13:54:10 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void *routine(void *lophi);
 
 int					check_av(char **av);
 
-void				init_args(int ac, char **av, t_philo *philo, t_data *data);
+int				init_args(int ac, char **av, t_philo *philo, t_data *data);
 
 //############  MINI_LIBFT  #############//
 
@@ -96,7 +96,7 @@ int					thinky(t_philo *philo);
 
 //############  CLEAN_TOOLS ##############/
 
-void				tornado_wipe(t_philo *philo);
+int				tornado_wipe(t_philo *philo);
 
 //############  CREATE_LST ##############/
 

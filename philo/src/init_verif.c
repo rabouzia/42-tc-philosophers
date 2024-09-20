@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_verif.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 16:54:29 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/20 15:34:17 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_data	*init_philo(int ac, char **av, t_data *data)
 	data->av = av;
 }
 
-void	init_args(int ac, char **av, t_philo *philo, t_data *data)
+int	init_args(int ac, char **av, t_philo *philo, t_data *data)
 {
 	t_philo	*tmp;
 
@@ -67,4 +67,5 @@ void	init_args(int ac, char **av, t_philo *philo, t_data *data)
 		if (tmp == philo)
 			break ;
 	}
+	return (1);
 }
