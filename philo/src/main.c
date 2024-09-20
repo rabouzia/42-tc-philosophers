@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 15:31:07 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:41:57 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	*routine(void *lophi)
 {
 	t_philo	*philo;
+
 	philo = (t_philo *)lophi;
 	if (philo->id % 2 == 0)
 		waiter(1);
@@ -37,6 +38,22 @@ void	*routine(void *lophi)
 	return (0);
 }
 
+int	monitoring(t_philo *philo)
+{
+	long	time;
+
+	time = time_get();
+	if (time - philo->last_eat > philo->data->life_range
+		&& philo->data->is_dead == 0)
+	{
+		philo->data->is_dead = 1;
+		pthread_mutex_unlock(&philo->data->smn_died);
+		printf("%li %d %s\n", time - philo->data->start_time, philo->id, DIED);
+		return (0);
+	}
+	return (1);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -48,12 +65,12 @@ int	main(int ac, char **av)
 		return (write(2, "Error\nWrong number of arguments\n", 32), 0);
 	if (!check_av(av + 1))
 		return (0);
-	// while (1)
-	// {
-	// 	if (monitoring())
-	// 		break;
-	// }
 	init_args(ac, av + 1, &philo, &data);
+	while (1)
+	{
+		if (monitoring(&philo))
+			break ;
+	}
 	tornado_wipe(&philo);
 	return (0);
 }

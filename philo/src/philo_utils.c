@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 17:49:40 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/20 16:41:03 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,6 @@ int	print_action(t_philo *philo, char *str)
 
 	time = time_get();
 	pthread_mutex_lock(&philo->data->smn_died);
-	if (time - philo->last_eat > philo->data->life_range
-		&& philo->data->is_dead == 0)
-	{
-		philo->data->is_dead = 1;
-		pthread_mutex_unlock(&philo->data->smn_died);
-		printf("%li %d %s\n", time - philo->data->start_time, philo->id, DIED);
-		return (0);
-	}
 	if (!philo->data->is_dead)
 		printf("%li %d %s\n", time - philo->data->start_time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->smn_died);
