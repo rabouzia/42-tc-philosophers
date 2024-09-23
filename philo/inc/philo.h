@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 13:15:45 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:57:11 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ typedef struct s_data
 	char			**av;
 }					t_data;
 
-void *routine(void *lophi);
+void				*routine(void *lophi);
 
 //############  INIT_VERIF   ##############//
 
 int					check_av(char **av);
 
-int				init_args(int ac, char **av, t_philo *philo, t_data *data);
+int					init_args(int ac, char **av, t_philo *philo, t_data *data);
 
 //############  MINI_LIBFT  #############//
 
@@ -80,7 +80,7 @@ int					check_dead(t_philo *philo);
 
 long				time_get(void);
 
-int 				check_finished(t_philo *philo);
+int					check_finished(t_philo *philo);
 
 void				waiter(long time);
 
@@ -96,7 +96,7 @@ int					thinky(t_philo *philo);
 
 //############  CLEAN_TOOLS ##############/
 
-int				tornado_wipe(t_philo *philo);
+int					tornado_wipe(t_philo *philo);
 
 //############  CREATE_LST ##############/
 

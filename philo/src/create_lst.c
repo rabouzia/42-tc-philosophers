@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 15:23:03 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:57:19 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_philo	*ft_lstnew(int id, t_data *data)
 	res->last_eat = time_get();
 	res->id = id;
 	res->next = NULL;
-	if (res->data->ac == 6)		
+	if (res->data->ac == 6)
 		res->nb_meals = ft_atoi(data->av[4]);
 	return (res);
 }
