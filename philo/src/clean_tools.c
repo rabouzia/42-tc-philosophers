@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:09:43 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 16:39:09 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:42:42 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	tornado_wipe(t_philo *philo)
 		if (philo == first)
 			break ;
 		pthread_mutex_destroy(&philo->fork);
-		printf("philo number %d \n", philo->id);
 		free(philo);
 		philo = tmp;
 	}

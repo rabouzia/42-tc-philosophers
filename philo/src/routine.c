@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:08:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 13:28:23 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:46:09 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	if_eat(t_philo *philo, t_philo *cur)
 
 void	else_eat(t_philo *philo, t_philo *cur)
 {
-	if(&cur->fork == &cur->next->fork)
-		return;
+	if (&cur->fork == &cur->next->fork)
+		return ;
 	pthread_mutex_lock(&cur->next->fork);
 	print_action(philo, FORK);
 	pthread_mutex_lock(&cur->fork);
@@ -49,11 +49,12 @@ int	eat(t_philo *philo)
 	t_philo	*cur;
 
 	cur = philo;
+	if (philo->ate == 1)
+		return (1);
 	if (philo->id % 2 == 0)
 		if_eat(philo, cur);
 	else
 		else_eat(philo, cur);
-	printf("%d philo's meal remaining : %d\n", philo->id,philo->nb_meals);
 	return (1);
 }
 
@@ -67,9 +68,10 @@ int	sleepy(t_philo *philo)
 int	thinky(t_philo *philo)
 {
 	print_action(philo, THINK);
-	// if ((philo->data->nb_philo % 2 ==0) && (philo->data->eat_time > philo->data->sleep_time))
-	// 	waiter(philo->data->eat_time - philo->data->sleep_time);
-		// if(philo->data->nb_philo % 2 != 0)
-		// 	waiter(700);
+	if ((philo->data->nb_philo % 2 == 0)
+		&& (philo->data->eat_time > philo->data->sleep_time))
+		waiter(philo->data->eat_time - philo->data->sleep_time);
+	if (philo->data->nb_philo % 2 != 0)
+		waiter(100);
 	return (1);
 }

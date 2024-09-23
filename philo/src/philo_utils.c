@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 13:16:51 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:42:23 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ int	check_finished(t_philo *philo)
 		pthread_mutex_lock(&philo->data->all_finished);
 		if (!philo->nb_meals)
 		{
-			philo->data->end_philo++;
 			pthread_mutex_unlock(&philo->data->all_finished);
-			if(philo->data->end_philo == philo->data->nb_philo)
-				return 0;
-			return (1);
+			return (0);
 		}
+		pthread_mutex_unlock(&philo->data->all_finished);
 		philo = philo->next;
 		if (first == philo)
-			break;
+			break ;
 	}
 	pthread_mutex_unlock(&philo->data->all_finished);
 	return (1);

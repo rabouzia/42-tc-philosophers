@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 13:28:50 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:27:42 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ t_data	*init_philo(int ac, char **av, t_data *data)
 	data->sleep_time = ft_atoi(av[3]);
 	data->is_dead = 0;
 	data->start_time = time_get();
-	return (data);
+	data->end_philo = 0;
 	data->ac = ac;
 	data->av = av;
+	return (data);
 }
 
 int	init_args(int ac, char **av, t_philo *philo, t_data *data)
@@ -70,7 +71,5 @@ int	init_args(int ac, char **av, t_philo *philo, t_data *data)
 		if (tmp == philo)
 			break ;
 	}
-	// printf("arg 4 is %d\n" ,ft_atoi(av[4]));
-
 	return (1);
 }
