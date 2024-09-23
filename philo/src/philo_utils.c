@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 16:41:03 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:16:51 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,25 @@ int	check_dead(t_philo *philo)
 	return (1);
 }
 
-int check_finished(t_philo *philo)
+int	check_finished(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->all_finished);
-	if (!philo->nb_meals)
+	t_philo	*first;
+
+	first = philo;
+	while (philo)
 	{
-		pthread_mutex_unlock(&philo->data->all_finished);
-		return (0);
+		pthread_mutex_lock(&philo->data->all_finished);
+		if (!philo->nb_meals)
+		{
+			philo->data->end_philo++;
+			pthread_mutex_unlock(&philo->data->all_finished);
+			if(philo->data->end_philo == philo->data->nb_philo)
+				return 0;
+			return (1);
+		}
+		philo = philo->next;
+		if (first == philo)
+			break;
 	}
 	pthread_mutex_unlock(&philo->data->all_finished);
 	return (1);
@@ -47,7 +59,8 @@ int check_finished(t_philo *philo)
 
 void	waiter(long time)
 {
-	long start;
+	long	start;
+
 	start = time_get();
 	while ((time_get() - start) < time)
 		usleep(10);

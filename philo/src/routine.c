@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:08:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 15:25:51 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:28:23 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	if_eat(t_philo *philo, t_philo *cur)
 	print_action(philo, EAT);
 	philo->last_eat = time_get();
 	waiter(philo->data->eat_time);
-	philo->nb_meals--;
+	if (philo->data->ac == 6)
+		philo->nb_meals--;
 	pthread_mutex_unlock(&cur->fork);
 	pthread_mutex_unlock(&cur->next->fork);
 }
@@ -37,7 +38,8 @@ void	else_eat(t_philo *philo, t_philo *cur)
 	print_action(philo, EAT);
 	philo->last_eat = time_get();
 	waiter(philo->data->eat_time);
-	philo->nb_meals--;
+	if (philo->data->ac == 6)
+		philo->nb_meals--;
 	pthread_mutex_unlock(&cur->next->fork);
 	pthread_mutex_unlock(&cur->fork);
 }
@@ -51,6 +53,7 @@ int	eat(t_philo *philo)
 		if_eat(philo, cur);
 	else
 		else_eat(philo, cur);
+	printf("%d philo's meal remaining : %d\n", philo->id,philo->nb_meals);
 	return (1);
 }
 

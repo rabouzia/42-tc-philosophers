@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 16:41:57 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:25:14 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,44 @@ void	*routine(void *lophi)
 int	monitoring(t_philo *philo)
 {
 	long	time;
+	t_philo	*first;
 
+	first = philo;
 	time = time_get();
-	if (time - philo->last_eat > philo->data->life_range
-		&& philo->data->is_dead == 0)
+	while (philo)
 	{
-		philo->data->is_dead = 1;
+		pthread_mutex_lock(&philo->data->smn_died);
+		if (time - philo->last_eat > philo->data->life_range
+			&& philo->data->is_dead == 0)
+		{
+			philo->data->is_dead = 1;
+			pthread_mutex_unlock(&philo->data->smn_died);
+			printf("%li %d %s\n", time - philo->data->start_time, philo->id,
+				DIED);
+			return (0);
+		}
 		pthread_mutex_unlock(&philo->data->smn_died);
-		printf("%li %d %s\n", time - philo->data->start_time, philo->id, DIED);
-		return (0);
+		philo = philo->next;
+		if (check_finished(philo))
+			return (0);
+		if (first == philo)
+			break ;
 	}
 	return (1);
+}
+
+void	thread_join(t_philo *philo)
+{
+	t_philo	*tmp;
+
+	tmp = philo;
+	while (tmp)
+	{
+		pthread_join(tmp->pid, NULL);
+		tmp = tmp->next;
+		if (tmp == philo)
+			break ;
+	}
 }
 
 int	main(int ac, char **av)
@@ -68,9 +95,10 @@ int	main(int ac, char **av)
 	init_args(ac, av + 1, &philo, &data);
 	while (1)
 	{
-		if (monitoring(&philo))
+		if (!monitoring(&philo))
 			break ;
 	}
+	thread_join(&philo);
 	tornado_wipe(&philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 13:54:10 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:15:45 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_data
 	long			sleep_time;
 	long			start_time;
 	int				is_dead;
-	int				end;
+	int				end_philo;
 	pthread_mutex_t	all_finished;
 	pthread_mutex_t	smn_died;
 	int				ac;

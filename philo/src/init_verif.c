@@ -6,11 +6,20 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/20 15:34:17 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:28:50 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	is_goodvalue(char **av)
+{
+	if (ft_atoi(av[0]) < 1 || ft_atoi(av[0]) > 200)
+		return 0;
+	if (ft_atoi(av[1]) < 60 || ft_atoi(av[2]) < 60 || ft_atoi(av[3]) < 60)
+		return 0;
+	return 1;
+}
 
 int	check_av(char **av)
 {
@@ -29,6 +38,8 @@ int	check_av(char **av)
 		}
 		i++;
 	}
+	if (!is_goodvalue(av))
+		return (0);
 	return (1);
 }
 
@@ -59,13 +70,7 @@ int	init_args(int ac, char **av, t_philo *philo, t_data *data)
 		if (tmp == philo)
 			break ;
 	}
-	tmp = philo;
-	while (tmp)
-	{
-		pthread_join(tmp->pid, NULL);
-		tmp = tmp->next;
-		if (tmp == philo)
-			break ;
-	}
+	// printf("arg 4 is %d\n" ,ft_atoi(av[4]));
+
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/18 15:39:41 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:57:24 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ t_philo	*ft_lstnew(int id, t_data *data)
 	res->last_eat = time_get();
 	res->id = id;
 	res->next = NULL;
-	if (data->ac == 6)
-		res->nb_meals = ft_atoi(data->av[4]);
+	res->nb_meals = ft_atoi(data->av[4]);
 	return (res);
 }
 
@@ -48,8 +47,7 @@ int	init_first(t_philo *philo, t_data *data)
 	philo->id = 1;
 	philo->last_eat = time_get();
 	philo->next = NULL;
-	if (data->ac == 6)
-		philo->nb_meals = ft_atoi(data->av[4]);
+	philo->nb_meals = ft_atoi(data->av[4]);
 	return (0);
 }
 
