@@ -1,3 +1,6 @@
 {
-	"workbench.iconTheme": "vs-seti"
+	"workbench.iconTheme": "vs-seti",
+	"files.associations": {
+		"philo.h": "c"
+	}
 }
