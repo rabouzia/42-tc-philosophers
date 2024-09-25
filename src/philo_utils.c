@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 13:15:58 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:06:36 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,21 @@ void	waiter(long time)
 
 	start = time_get();
 	while ((time_get() - start) < time)
+		usleep(100);
+}
+
+void	waiter_white(t_philo *philo)
+{
+	long	last_meal;
+	long	life_range;
+
+	pthread_mutex_lock(&philo->key_mutex);
+	last_meal = philo->last_eat;
+	pthread_mutex_unlock(&philo->key_mutex);
+	// pthread_mutex_lock();
+	life_range = philo->data->life_range;
+	//
+	while ((time_get() - last_meal) < life_range - 10)
 		usleep(100);
 }
 

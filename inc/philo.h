@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 11:49:35 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:07:06 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ long				time_get(void);
 int					check_finished(t_philo *philo);
 
 void				waiter(long time);
+
+void				waiter_white(t_philo *philo);
 
 int					print_action(t_philo *philo, char *str);
 
