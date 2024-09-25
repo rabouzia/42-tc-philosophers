@@ -1,44 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_verif.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 13:58:54 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:22:40 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	is_goodvalue(char **av)
+int	init_first(t_philo *philo, t_data *data)
 {
-	if (ft_atoi(av[0]) < 1)
-		return (0);
-	return (1);
+	pthread_mutex_init(&(philo->fork), NULL);
+	pthread_mutex_init(&(philo->key_mutex), NULL);
+	philo->data = data;
+	philo->ate = 0;
+	philo->id = 1;
+	philo->last_eat = time_get();
+	philo->next = NULL;
+	if (philo->data->ac == 6)
+		philo->nb_meals = ft_atoi(data->av[4]);
+	return (0);
 }
 
-int	check_av(char **av)
+t_philo	*init_chain(t_philo *philo, t_data *data)
 {
-	short	i;
-	short	j;
+	int	i;
 
-	i = 0;
-	while (av[i])
+	init_first(philo, data);
+	i = 2;
+	while (i <= data->nb_philo)
 	{
-		j = 0;
-		while (av[i][j])
-		{
-			if (!ft_isdigit(av[i][j]))
-				return (0);
-			j++;
-		}
+		if (!ft_lstadd_back(philo, ft_lstnew(i, data)))
+			return (NULL);
 		i++;
 	}
-	if (!is_goodvalue(av))
-		return (0);
-	return (1);
+	create_circular(philo);
+	return (philo);
 }
 
 t_data	*init_philo(int ac, char **av, t_data *data)
@@ -70,4 +71,18 @@ int	init_args(int ac, char **av, t_philo *philo, t_data *data)
 			break ;
 	}
 	return (1);
+}
+
+void	thread_join(t_philo *philo)
+{
+	t_philo	*tmp;
+
+	tmp = philo;
+	while (tmp)
+	{
+		pthread_join(tmp->pid, NULL);
+		tmp = tmp->next;
+		if (tmp == philo)
+			break ;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 17:07:06 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:27:08 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,39 @@ typedef struct s_data
 	char			**av;
 }					t_data;
 
-void				*routine(void *lophi);
 
-//############  INIT_VERIF   ##############//
+
+
+//############  CHECK_UTILS ##############/
 
 int					check_av(char **av);
 
+int					check_dead(t_philo *philo);
+
+int					check_finished(t_philo *philo);
+
+int 				dead_verif(t_philo *philo);
+
+
+//############  CLEAN_TOOLS ##############/
+
+int					tornado_wipe(t_philo *philo);
+
+//############  INIT   ##############//
+
 int					init_args(int ac, char **av, t_philo *philo, t_data *data);
+
+t_philo				*init_chain(t_philo *philo, t_data *data);
+
+void				thread_join(t_philo *philo);
+
+//############  LST_UTILS ##############//
+
+int					ft_lstadd_back(t_philo *lst, t_philo *new);
+
+void				create_circular(t_philo *philo);
+
+t_philo				*ft_lstnew(int id, t_data *data);
 
 //############  MINI_LIBFT  #############//
 
@@ -73,23 +99,9 @@ int					ft_isdigit(int c);
 
 int					ft_atoi(char *str);
 
-int					ft_lstadd_back(t_philo *lst, t_philo *new);
-
-//############  PHILO_UTILS ##############//
-
-int					check_dead(t_philo *philo);
-
-long				time_get(void);
-
-int					check_finished(t_philo *philo);
-
-void				waiter(long time);
-
-void				waiter_white(t_philo *philo);
-
-int					print_action(t_philo *philo, char *str);
-
 //############  ROUTINE ##############//
+
+void				*routine(void *lophi);
 
 int					eat(t_philo *philo);
 
@@ -97,12 +109,14 @@ int					sleepy(t_philo *philo);
 
 int					thinky(t_philo *philo);
 
-//############  CLEAN_TOOLS ##############/
+//############  TIME_TOOLS ##############/
 
-int					tornado_wipe(t_philo *philo);
+long				time_get(void);
 
-//############  CREATE_LST ##############/
+void				waiter(long time);
 
-t_philo				*init_chain(t_philo *philo, t_data *data);
+void				waiter_white(t_philo *philo);
+
+int					print_action(t_philo *philo, char *str);
 
 #endif

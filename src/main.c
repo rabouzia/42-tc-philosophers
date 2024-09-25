@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 16:08:02 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:26:28 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ void	*routine(void *lophi)
 	return (0);
 }
 
+
+
 int	monitoring(t_philo *philo)
 {
-	long	time;
 	t_philo	*first;
 	int		i;
 
 	first = philo;
-	time = time_get();
 	i = 1;
 	while (philo)
 	{
@@ -48,18 +48,8 @@ int	monitoring(t_philo *philo)
 		if (philo->nb_meals == 0 && philo->data->ac == 6)
 			i++;
 		pthread_mutex_unlock(&philo->key_mutex);
-		pthread_mutex_lock(&philo->key_mutex);
-		if (time - philo->last_eat >= philo->data->life_range)
-		{
-			pthread_mutex_unlock(&philo->key_mutex);
-			pthread_mutex_lock(&philo->data->smn_died);
-			philo->data->is_dead = 1;
-			pthread_mutex_unlock(&philo->data->smn_died);
-			printf("%li %d %s\n", time - philo->data->start_time, philo->id,
-				DIED);
-			return (0);
-		}
-		pthread_mutex_unlock(&philo->key_mutex);
+		if (!dead_verif(philo))
+			return 0;
 		philo = philo->next;
 		if (i == philo->data->nb_philo && philo->data->ac == 6)
 			return (0);
@@ -67,20 +57,6 @@ int	monitoring(t_philo *philo)
 			break ;
 	}
 	return (1);
-}
-
-void	thread_join(t_philo *philo)
-{
-	t_philo	*tmp;
-
-	tmp = philo;
-	while (tmp)
-	{
-		pthread_join(tmp->pid, NULL);
-		tmp = tmp->next;
-		if (tmp == philo)
-			break ;
-	}
 }
 
 int	main(int ac, char **av)

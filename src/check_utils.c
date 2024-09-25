@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   check_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 17:49:15 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:26:40 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	time_get(void)
+int	check_av(char **av)
 {
-	struct timeval	tv;
+	short	i;
+	short	j;
 
-	if (gettimeofday(&tv, NULL) == -1)
+	i = 0;
+	while (av[i])
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	if (ft_atoi(av[0]) < 1)
 		return (0);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return (1);
 }
 
 int	check_dead(t_philo *philo)
@@ -54,36 +67,23 @@ int	check_finished(t_philo *philo)
 	return (1);
 }
 
-void	waiter(long time)
-{
-	long	start;
-
-	start = time_get();
-	while ((time_get() - start) < time)
-		usleep(100);
-}
-
-void	waiter_white(t_philo *philo)
-{
-	long	last_meal;
-	long	life_range;
-
-	pthread_mutex_lock(&philo->key_mutex);
-	last_meal = philo->last_eat;
-	pthread_mutex_unlock(&philo->key_mutex);
-	life_range = philo->data->life_range;
-	while ((time_get() - last_meal) < life_range - 10)
-		usleep(100);
-}
-
-int	print_action(t_philo *philo, char *str)
+int dead_verif(t_philo *philo)
 {
 	long	time;
-
+	
 	time = time_get();
-	pthread_mutex_lock(&philo->data->smn_died);
-	if (!philo->data->is_dead)
-		printf("%li %d %s\n", time - philo->data->start_time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->smn_died);
-	return (1);
+	
+	pthread_mutex_lock(&philo->key_mutex);
+		if (time - philo->last_eat >= philo->data->life_range)
+		{
+			pthread_mutex_unlock(&philo->key_mutex);
+			pthread_mutex_lock(&philo->data->smn_died);
+			philo->data->is_dead = 1;
+			pthread_mutex_unlock(&philo->data->smn_died);
+			printf("%li %d %s\n", time - philo->data->start_time, philo->id,
+				DIED);
+			return (0);
+		}
+	pthread_mutex_unlock(&philo->key_mutex);
+	return 1;
 }
