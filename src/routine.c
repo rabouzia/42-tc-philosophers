@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:08:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 17:07:43 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:49:40 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	sleepy(t_philo *philo)
 int	thinky(t_philo *philo)
 {
 	print_action(philo, THINK);
-	// if (philo->data->nb_philo % 2 != 0)
 	waiter_white(philo);
 	return (1);
 }

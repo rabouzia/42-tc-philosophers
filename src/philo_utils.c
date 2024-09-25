@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 17:06:36 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:49:15 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	check_finished(t_philo *philo)
 	first = philo;
 	while (philo)
 	{
-		// if (!check_dead(philo))
-		// 	return (printf("died\n"),0);
 		pthread_mutex_lock(&philo->key_mutex);
 		if (!philo->nb_meals)
 		{
@@ -73,9 +71,7 @@ void	waiter_white(t_philo *philo)
 	pthread_mutex_lock(&philo->key_mutex);
 	last_meal = philo->last_eat;
 	pthread_mutex_unlock(&philo->key_mutex);
-	// pthread_mutex_lock();
 	life_range = philo->data->life_range;
-	//
 	while ((time_get() - last_meal) < life_range - 10)
 		usleep(100);
 }
