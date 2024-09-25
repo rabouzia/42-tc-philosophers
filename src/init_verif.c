@@ -6,7 +6,7 @@
 /*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 16:56:41 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 13:58:54 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	is_goodvalue(char **av)
 {
-	if (ft_atoi(av[0]) < 1 || ft_atoi(av[0]) > 200)
-		return (0);
-	if (ft_atoi(av[1]) < 60 || ft_atoi(av[2]) < 60 || ft_atoi(av[3]) < 60)
+	if (ft_atoi(av[0]) < 1)
 		return (0);
 	return (1);
 }

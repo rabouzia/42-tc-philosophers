@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 00:50:07 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:15:58 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,21 @@ int	check_finished(t_philo *philo)
 
 	first = philo;
 	while (philo)
- 	{
-		pthread_mutex_lock(&philo->data->all_finished);
-		pthread_mutex_lock(&philo->fork);
+	{
+		// if (!check_dead(philo))
+		// 	return (printf("died\n"),0);
+		pthread_mutex_lock(&philo->key_mutex);
 		if (!philo->nb_meals)
 		{
-			pthread_mutex_unlock(&philo->data->all_finished);
-			pthread_mutex_unlock(&philo->fork);
+			pthread_mutex_unlock(&philo->key_mutex);
 			return (0);
 		}
-		pthread_mutex_unlock(&philo->data->all_finished);
-		pthread_mutex_unlock(&philo->fork);
+		pthread_mutex_unlock(&philo->key_mutex);
 		philo = philo->next;
 		if (first == philo)
 			break ;
 	}
-	pthread_mutex_unlock(&philo->data->all_finished);
- 	return (1);
+	return (1);
 }
 
 void	waiter(long time)
@@ -64,7 +62,7 @@ void	waiter(long time)
 
 	start = time_get();
 	while ((time_get() - start) < time)
-		usleep(10);
+		usleep(100);
 }
 
 int	print_action(t_philo *philo, char *str)
@@ -73,12 +71,8 @@ int	print_action(t_philo *philo, char *str)
 
 	time = time_get();
 	pthread_mutex_lock(&philo->data->smn_died);
-	pthread_mutex_lock(&philo->data->all_finished);
 	if (!philo->data->is_dead)
-	{
 		printf("%li %d %s\n", time - philo->data->start_time, philo->id, str);
-	}
-	pthread_mutex_unlock(&philo->data->all_finished);
- 	pthread_mutex_unlock(&philo->data->smn_died);
- 	return (1);
+	pthread_mutex_unlock(&philo->data->smn_died);
+	return (1);
 }

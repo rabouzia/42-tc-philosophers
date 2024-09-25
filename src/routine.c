@@ -3,84 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:08:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 00:04:36 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:07:40 by rabouzia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	if_eat(t_philo *philo)
+int	if_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork);
 	print_action(philo, FORK);
 	pthread_mutex_lock(&philo->next->fork);
 	print_action(philo, FORK);
 	print_action(philo, EAT);
-	pthread_mutex_lock(&philo->eating);
+	pthread_mutex_lock(&philo->key_mutex);
 	philo->last_eat = time_get();
-	pthread_mutex_unlock(&philo->eating);
+	pthread_mutex_unlock(&philo->key_mutex);
 	waiter(philo->data->eat_time);
-	pthread_mutex_lock(&philo->mutex);
+	pthread_mutex_lock(&philo->key_mutex);
 	if (philo->data->ac == 6)
 		philo->nb_meals--;
-	pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_unlock(&philo->key_mutex);
 	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo->next->fork);
+	if (philo->data->ac == 6 && philo->nb_meals == 0)
+		return 0;
+	return (1);
 }
 
-void	else_eat(t_philo *philo)
+void one_died(t_philo *philo)
 {
-	if (&philo->fork == &philo->next->fork)
-		return ;
+	waiter(philo->data->life_range);
+	print_action(philo, DIED);	
+}
+
+int	else_eat(t_philo *philo)
+{
 	pthread_mutex_lock(&philo->next->fork);
 	print_action(philo, FORK);
+	if (&philo->fork == &philo->next->fork)
+		return (pthread_mutex_unlock(&philo->fork),one_died(philo),0);
 	pthread_mutex_lock(&philo->fork);
 	print_action(philo, FORK);
 	print_action(philo, EAT);
-	pthread_mutex_lock(&philo->eating);
+	pthread_mutex_lock(&philo->key_mutex);
 	philo->last_eat = time_get();
-	pthread_mutex_unlock(&philo->eating);
+	pthread_mutex_unlock(&philo->key_mutex);
 	waiter(philo->data->eat_time);
-	pthread_mutex_lock(&philo->data->all_finished);
-	pthread_mutex_lock(&philo->mutex2);
+	pthread_mutex_lock(&philo->key_mutex);
 	if (philo->data->ac == 6)
 		philo->nb_meals--;
-	pthread_mutex_unlock(&philo->data->all_finished);
-	pthread_mutex_unlock(&philo->mutex2);
+	pthread_mutex_unlock(&philo->key_mutex);
 	pthread_mutex_unlock(&philo->next->fork);
 	pthread_mutex_unlock(&philo->fork);
+	if (philo->data->ac == 6 && philo->nb_meals == 0)
+		return 0;
+	return (1);
 }
 
 int	eat(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->key_mutex);
 	if (philo->ate == 1)
-		return (1);
+		return (pthread_mutex_unlock(&philo->key_mutex), 1);
 	if (philo->id % 2 == 0)
-		if_eat(philo);
+	{
+		pthread_mutex_unlock(&philo->key_mutex);
+		if(!if_eat(philo))
+			return (0);
+	}
 	else
-		else_eat(philo);
+	{
+		pthread_mutex_unlock(&philo->key_mutex);
+		if (!else_eat(philo))
+			return (0);
+	}
 	return (1);
 }
 
 int	sleepy(t_philo *philo)
 {
+	long	time;
+
 	print_action(philo, SLEEP);
-	waiter(philo->data->sleep_time);
+	pthread_mutex_lock(&philo->key_mutex);
+	time = (philo->data->sleep_time);
+	pthread_mutex_unlock(&philo->key_mutex);
+	waiter(time);
 	return (1);
 }
 
 int	thinky(t_philo *philo)
 {
 	print_action(philo, THINK);
-	// if ((philo->data->nb_philo % 2 == 0)
-	// 	&& (philo->data->eat_time > philo->data->sleep_time))
-	// 	waiter(philo->data->eat_time - philo->data->sleep_time);
-		// waiter(50);
-	if (philo->data->nb_philo % 2 != 0)
-		waiter(50);
-	// waiter(50);
+	// pthread_mutex_lock(&philo->key_mutex);
+	// if (philo->data->eat_time > philo->data->sleep_time)	
+	// 	waiter(100);
+	// if (philo->data->nb_philo % 2 != 0)
+		// waiter(50); 
 	return (1);
 }
