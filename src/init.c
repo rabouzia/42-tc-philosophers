@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 14:31:11 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 21:22:40 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 23:03:33 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	init_first(t_philo *philo, t_data *data)
 {
-	pthread_mutex_init(&(philo->fork), NULL);
-	pthread_mutex_init(&(philo->key_mutex), NULL);
+	if (pthread_mutex_init(&(philo->fork), NULL) != 0)
+		return (0);
+	if (pthread_mutex_init(&(philo->key_mutex), NULL) != 0)
+		return (0);
 	philo->data = data;
 	philo->ate = 0;
 	philo->id = 1;
@@ -23,14 +25,15 @@ int	init_first(t_philo *philo, t_data *data)
 	philo->next = NULL;
 	if (philo->data->ac == 6)
 		philo->nb_meals = ft_atoi(data->av[4]);
-	return (0);
+	return (1);
 }
 
 t_philo	*init_chain(t_philo *philo, t_data *data)
 {
 	int	i;
 
-	init_first(philo, data);
+	if (!init_first(philo, data))
+		return (NULL);
 	i = 2;
 	while (i <= data->nb_philo)
 	{
@@ -65,7 +68,8 @@ int	init_args(int ac, char **av, t_philo *philo, t_data *data)
 	tmp = philo;
 	while (tmp)
 	{
-		pthread_create(&(tmp->pid), NULL, routine, tmp);
+		if (pthread_create(&(tmp->pid), NULL, routine, tmp) == -1)
+			return (tornado_wipe(philo), 0);
 		tmp = tmp->next;
 		if (tmp == philo)
 			break ;
@@ -73,16 +77,18 @@ int	init_args(int ac, char **av, t_philo *philo, t_data *data)
 	return (1);
 }
 
-void	thread_join(t_philo *philo)
+int	thread_join(t_philo *philo)
 {
 	t_philo	*tmp;
 
 	tmp = philo;
 	while (tmp)
 	{
-		pthread_join(tmp->pid, NULL);
+		if (pthread_join(tmp->pid, NULL) != 0)
+			return (0);
 		tmp = tmp->next;
 		if (tmp == philo)
 			break ;
 	}
+	return (1);
 }

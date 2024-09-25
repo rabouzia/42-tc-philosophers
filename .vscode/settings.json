@@ -1,6 +1,7 @@
 {
 	"workbench.iconTheme": "vs-seti",
 	"files.associations": {
-		"philo.h": "c"
+		"philo.h": "c",
+		"time.h": "c"
 	}
 }

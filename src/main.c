@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:15 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 21:26:28 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 23:04:12 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	*routine(void *lophi)
 	return (0);
 }
 
-
-
 int	monitoring(t_philo *philo)
 {
 	t_philo	*first;
@@ -49,7 +47,7 @@ int	monitoring(t_philo *philo)
 			i++;
 		pthread_mutex_unlock(&philo->key_mutex);
 		if (!dead_verif(philo))
-			return 0;
+			return (0);
 		philo = philo->next;
 		if (i == philo->data->nb_philo && philo->data->ac == 6)
 			return (0);
@@ -70,13 +68,15 @@ int	main(int ac, char **av)
 		return (write(2, "Error\nWrong number of arguments\n", 32), 0);
 	if (!check_av(av + 1))
 		return (0);
-	init_args(ac, av + 1, &philo, &data);
+	if (!init_args(ac, av + 1, &philo, &data))
+		return (0);
 	while (1)
 	{
 		if (!monitoring(&philo))
 			break ;
 	}
-	thread_join(&philo);
+	if (!thread_join(&philo))
+		return (0);
 	tornado_wipe(&philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:10:53 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 21:26:40 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 23:05:36 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,22 @@ int	check_finished(t_philo *philo)
 	return (1);
 }
 
-int dead_verif(t_philo *philo)
+int	dead_verif(t_philo *philo)
 {
 	long	time;
-	
+
 	time = time_get();
-	
 	pthread_mutex_lock(&philo->key_mutex);
-		if (time - philo->last_eat >= philo->data->life_range)
-		{
-			pthread_mutex_unlock(&philo->key_mutex);
-			pthread_mutex_lock(&philo->data->smn_died);
-			philo->data->is_dead = 1;
-			pthread_mutex_unlock(&philo->data->smn_died);
-			printf("%li %d %s\n", time - philo->data->start_time, philo->id,
-				DIED);
-			return (0);
-		}
+	if (time - philo->last_eat >= philo->data->life_range)
+	{
+		pthread_mutex_unlock(&philo->key_mutex);
+		pthread_mutex_lock(&philo->data->smn_died);
+		philo->data->is_dead = 1;
+		pthread_mutex_unlock(&philo->data->smn_died);
+		printf("%li %d %s\n", time - philo->data->start_time, philo->id,
+			DIED);
+		return (0);
+	}
 	pthread_mutex_unlock(&philo->key_mutex);
-	return 1;
+	return (1);
 }

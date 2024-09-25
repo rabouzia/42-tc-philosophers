@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 21:04:26 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 21:07:09 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 23:04:23 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ long	time_get(void)
 	if (gettimeofday(&tv, NULL) == -1)
 		return (0);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	one_died(t_philo *philo)
+{
+	waiter(philo->data->life_range);
+	print_action(philo, DIED);
 }
 
 void	waiter(long time)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabouzia <rabouzia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:09:43 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/23 15:42:42 by rabouzia         ###   ########.fr       */
+/*   Updated: 2024/09/25 22:47:19 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	tornado_wipe(t_philo *philo)
 		if (philo == first)
 			break ;
 		pthread_mutex_destroy(&philo->fork);
+		pthread_mutex_destroy(&philo->key_mutex);
 		free(philo);
 		philo = tmp;
 	}

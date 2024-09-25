@@ -6,7 +6,7 @@
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 00:07:27 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 21:27:08 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 23:01:32 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ typedef struct s_data
 	char			**av;
 }					t_data;
 
-
-
-
 //############  CHECK_UTILS ##############/
 
 int					check_av(char **av);
@@ -70,12 +67,19 @@ int					check_dead(t_philo *philo);
 
 int					check_finished(t_philo *philo);
 
-int 				dead_verif(t_philo *philo);
-
+int					dead_verif(t_philo *philo);
 
 //############  CLEAN_TOOLS ##############/
 
 int					tornado_wipe(t_philo *philo);
+
+//############  CLEAN_TOOLS ##############/
+
+void				eat_utils(t_philo *philo);
+
+int					if_eat(t_philo *philo);
+
+int					else_eat(t_philo *philo);
 
 //############  INIT   ##############//
 
@@ -83,7 +87,7 @@ int					init_args(int ac, char **av, t_philo *philo, t_data *data);
 
 t_philo				*init_chain(t_philo *philo, t_data *data);
 
-void				thread_join(t_philo *philo);
+int					thread_join(t_philo *philo);
 
 //############  LST_UTILS ##############//
 
@@ -112,6 +116,8 @@ int					thinky(t_philo *philo);
 //############  TIME_TOOLS ##############/
 
 long				time_get(void);
+
+void				one_died(t_philo *philo);
 
 void				waiter(long time);
 

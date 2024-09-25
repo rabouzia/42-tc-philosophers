@@ -2,7 +2,8 @@ NAME     =		philo
 
 SRC	     =		src/check_utils.c	\
 				src/clean_tools.c 	\
-				src/init.c  	\
+				src/eat_utils.c 	\
+				src/init.c  		\
 				src/lst_utils.c 	\
 				src/main.c 			\
 			    src/mini_libft.c	\
@@ -12,7 +13,7 @@ SRC	     =		src/check_utils.c	\
 
 CC       =	    cc
 
-CFLAGS   =	    -Wall -Wextra -Werror -g3 -I./inc
+CFLAGS   =	    -Wall -Wextra -Werror -pthread -g3 -I./inc
 
 OBJ_DIR	 =	    obj/
 

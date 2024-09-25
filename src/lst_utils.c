@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_lst.c                                       :+:      :+:    :+:   */
+/*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ramzerk <ramzerk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:24:44 by ramzerk           #+#    #+#             */
-/*   Updated: 2024/09/25 21:08:23 by ramzerk          ###   ########.fr       */
+/*   Updated: 2024/09/25 23:04:49 by ramzerk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ t_philo	*ft_lstnew(int id, t_data *data)
 	if (!res)
 		return (NULL);
 	res->data = data;
-	pthread_mutex_init(&(res->fork), NULL);
-	pthread_mutex_init(&(res->key_mutex), NULL);
+	if (pthread_mutex_init(&(res->fork), NULL) != 0)
+		return (NULL);
+	if (pthread_mutex_init(&(res->key_mutex), NULL) != 0)
+		return (NULL);
 	res->ate = 0;
 	res->last_eat = time_get();
 	res->id = id;
